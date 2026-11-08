@@ -1,0 +1,8 @@
+# Optional extras for the hackathon upgrades — not required for the core train/evaluate path.
+# Install only what you need:
+#   python -m pip install -r requirements-optional.txt
+matplotlib              # scripts/plot_evaluation.py, scripts/plot_scaling.py
+lm-format-enforcer      # evaluate.py --guided-json (grammar-constrained decoding)
+# vllm is intentionally not pinned here: install the build matching your CUDA/arch
+# (see containers/finscale-aarch64.def for the GB10/aarch64 case) via the official
+# instructions at https://docs.vllm.ai/ rather than a generic `pip install vllm`.

@@ -38,6 +38,8 @@ FinscaleNvidiaPlatform/
 
 Git tracks the directory skeleton with `.gitkeep` files. It intentionally does **not** commit generated JSONL datasets, model adapters, checkpoints, or experiment outputs. **Do not create empty JSONL or fake adapter files to fill the tree.**
 
+The tree above is the original single-GPU pipeline. Section 9 below adds `scripts/launch_distributed.sh`, `scripts/benchmark_scaling.py`, `scripts/gpu_monitor.py`, `scripts/plot_scaling.py`, `scripts/sample_gold_set.py`, `scripts/label_gold_set.py`, `scripts/evaluate_against_gold.py`, `scripts/serve_vllm.py`, `scripts/query_vllm_client.py`, `scripts/dashboard.py`, `fuzzball/`, and `containers/`.
+
 ## 1. Choose a GPU environment
 
 - **RunPod:** Start a GPU Pod with a CUDA-enabled PyTorch image, ideally A100 40 GB to compare with the Lambda baseline. Attach a **Network Volume** mounted at `/workspace` if you need data and outputs to survive Pod deletion. Confirm your selected template has Python 3.10 or 3.11, CUDA-enabled PyTorch and enough disk space. A persistent network volume is recommended but not automatically provided.
@@ -217,3 +219,73 @@ ls -lh out/heldout/charts/
 ```
 
 The script saves `out/heldout/charts/finscale_comparison.png` (300 DPI) and `out/heldout/charts/finscale_comparison.pdf` (vector PDF). It reads `base` and `fine_tuned` from `eval_results.json`, scales rates to percentages, and shows macro-F1 on a 0–100 chart scale while retaining its original decimal values in bar labels. These generated charts are ignored by Git and remain on your RunPod volume. Use `--output-dir` to change their location.
+
+## 9. Hackathon upgrades (two-node GB10 / Fuzzball)
+
+These address the gaps in `FinScale Hackathon Readiness Review.md`: the workload now has a
+real reason to need two nodes (a 72B teacher that doesn't fit on one), plus fixes for the
+weak baseline results. See `PIPELINE.md` for how these slot into the pipeline.
+
+**Distributed training (FSDP, 2 nodes).** `train.py --backend peft --distributed` enables
+FSDP full-shard; launch identically on both nodes via `scripts/launch_distributed.sh` (set
+`MASTER_ADDR` and `NODE_RANK`). Also fixed independently of distribution: prompt tokens are
+now masked out of the loss (only the assistant's JSON label trains the model), and defaults
+changed to `--learning-rate 2e-4 --lora-r 16 --lora-alpha 32 --epochs 3` with
+`--grad-accum-steps` for a larger effective batch.
+
+**72B teacher labeling via vLLM.** `scripts/make_data_nvidia.py --labeler-endpoint
+http://localhost:8000/v1 --labeler-model Qwen/Qwen2.5-72B-Instruct` labels against a
+vLLM-served teacher instead of loading a model locally — this is what actually needs the
+second node, since 72B in bf16 (~144GB) doesn't fit on one 128GB GB10. Omit
+`--labeler-endpoint` to keep the original local Qwen2.5-7B-Instruct path.
+
+**Benchmarking scaling efficiency.** Run one training job on 1 GPU and one via
+`scripts/launch_distributed.sh` on 2 nodes, then:
+```bash
+python scripts/benchmark_scaling.py --single-node out/1node/metrics.json --multi-node out/2node/metrics.json \
+  --single-node-gpu-csv out/1node/gpu_monitor.csv --multi-node-gpu-csv out/2node/gpu_node0.csv out/2node/gpu_node1.csv \
+  --out out/scaling_report.json
+python scripts/plot_scaling.py --results out/scaling_report.json
+```
+`scripts/gpu_monitor.py --out <path> --node-id <id>` logs `nvidia-smi` utilization/memory to CSV during a run; run one instance per node.
+
+**Expanded data.** `scripts/download_edgar.py` now resolves tickers to CIKs dynamically from
+SEC's own ticker map (`resolve_ciks()`), so it ships a ~150-ticker sector-diverse default
+list instead of 12 hand-typed CIKs. Use `--tickers-file`, `--max-companies`, or
+`--filings-per-company` (years of history) to tune the pull.
+
+**Human-verified gold set.** Category/severity accuracy against the teacher only measures
+agreement with a 7B/72B model, not correctness. To fix that:
+```bash
+python scripts/sample_gold_set.py --input data/eval_raw.jsonl --n 200
+python scripts/label_gold_set.py        # interactive terminal review, resumable
+python scripts/evaluate_against_gold.py --backend peft --model Qwen/Qwen2.5-3B-Instruct \
+  --adapter out/adapters --teacher-endpoint http://localhost:8000/v1
+```
+Scores base, fine-tuned, and (if a vLLM endpoint is given) the teacher against the human labels.
+
+**Class imbalance and uncertainty in evaluation.** `evaluate.py` now reports a per-category
+confusion matrix, weighted-F1 alongside macro-F1, and 95% bootstrap confidence intervals on
+every rate metric — all in `eval_results.json`/`eval_results.md` automatically.
+`train.py --oversample-train` duplicates under-represented categories in the train split only.
+
+**Guided JSON decoding.** `evaluate.py --guided-json` constrains generation to the label
+schema via `lm-format-enforcer` (`pip install lm-format-enforcer`; falls back to unconstrained
+decoding with a warning if not installed). Lead with category/severity gains in the pitch,
+since constrained decoding alone gets valid JSON to 100% without fine-tuning.
+
+**vLLM multi-LoRA serving.** `scripts/serve_vllm.py --model Qwen/Qwen2.5-14B-Instruct --lora
+customer_a=out/adapters_a --lora customer_b=out/adapters_b` serves one base model with
+hot-swappable per-customer adapters, selected per-request by `model` name
+(`scripts/query_vllm_client.py` is a minimal example client).
+
+**Live dashboard.** `python scripts/dashboard.py --log out/train_peft.log --gpu-csv
+out/gpu_node0.csv out/gpu_node1.csv --eval-results out/heldout/eval_results.json` serves a
+page at `http://localhost:7777` showing both nodes' GPU utilization, the loss curve, and a
+gold-vs-base-vs-fine-tuned comparison table — polls every 2s, stdlib only.
+
+**Apptainer / Fuzzball.** `containers/finscale-aarch64.def` builds an aarch64 container for
+GB10 from an NGC PyTorch base image (verify it actually published an arm64 manifest for the
+tag you pick) plus `requirements-aarch64.txt` (no `bitsandbytes`; stick to bf16/fp16 LoRA on
+this hardware). `fuzzball/*.yaml` are workflow templates for labeling/training/eval — **not
+validated against a live cluster**; see `fuzzball/README.md` before running them.

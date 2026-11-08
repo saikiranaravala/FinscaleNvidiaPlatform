@@ -47,3 +47,27 @@ There are two separate train/test boundaries — never conflate them:
 
 - **Company-level** split (`train_raw.jsonl` vs `eval_raw.jsonl`, fixed in step 2): tests generalization to unseen companies.
 - **Record-level** split (`train/valid/test.jsonl`, fixed in step 5): normal ML train/val/test hygiene within the training companies only.
+
+## Hackathon additions (see README.md section 9 and `FinScale Hackathon Readiness Review.md`)
+
+Optional stages that plug into the sequence above without changing it:
+
+- **Step 2 can target a 72B teacher over vLLM** instead of a local 7B model
+  (`make_data_nvidia.py --labeler-endpoint ... --labeler-model Qwen/Qwen2.5-72B-Instruct`) —
+  this is the one piece of the pipeline that actually needs two nodes.
+- **Step 5 (train.py) can run distributed** across two nodes via FSDP
+  (`--distributed`, launched with `scripts/launch_distributed.sh`), masks prompt tokens out
+  of the loss, and can oversample minority categories in the train split (`--oversample-train`).
+- **A parallel gold-set track** (`sample_gold_set.py` → `label_gold_set.py` →
+  `evaluate_against_gold.py`) scores base/fine-tuned/teacher against human-verified labels
+  instead of the teacher's own labels — this is what turns "accuracy" into a correctness
+  claim rather than a teacher-agreement claim.
+- **A scaling-benchmark track** (`gpu_monitor.py` per node → `benchmark_scaling.py` →
+  `plot_scaling.py`) compares a 1-node and a 2-node training run's `metrics.json` and GPU-
+  utilization CSVs to produce the scaling-efficiency headline chart.
+- **Serving**: `serve_vllm.py` hosts the fine-tuned model with hot-swappable per-customer
+  LoRA adapters; `dashboard.py` is a stdlib-only live view of both nodes' GPU utilization,
+  the loss curve, and a gold-vs-base-vs-fine-tuned comparison table for the demo.
+- **Infra**: `containers/finscale-aarch64.def` (Apptainer, aarch64/GB10) and `fuzzball/*.yaml`
+  (workflow templates) are unvalidated — written without access to a live cluster — adapt
+  and validate against the actual Fuzzball CLI/build host before the event.

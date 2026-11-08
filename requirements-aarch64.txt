@@ -1,0 +1,23 @@
+# aarch64 (Grace/GB10) requirement set — companion to containers/finscale-aarch64.def.
+#
+# Differences from the x86 requirements.txt:
+#   - no pinned numpy/pyarrow build; use whatever the NGC base image ships (verify with
+#     `python -c 'import numpy,pyarrow; print(numpy.__version__, pyarrow.__version__)'`
+#     after the container builds, and only pin here if you hit an actual conflict).
+#   - bitsandbytes is NOT included: as of writing it does not reliably publish aarch64 +
+#     Blackwell (sm_100/sm_101) wheels. Stay on plain bf16/fp16 LoRA (the default in this
+#     repo) rather than depending on 8-bit/4-bit quantization on this hardware.
+# CUDA PyTorch must already be installed in the NGC base image — do not pin torch here.
+huggingface-hub==0.36.2
+tokenizers==0.20.3
+transformers==4.46.3
+datasets==3.3.2
+peft==0.13.2
+accelerate==1.3.0
+safetensors>=0.4,<1
+sentencepiece
+requests
+beautifulsoup4
+lxml
+tqdm
+scikit-learn

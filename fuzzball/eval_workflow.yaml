@@ -1,0 +1,26 @@
+# TEMPLATE — see fuzzball/README.md before running. Not validated against a live cluster.
+name: finscale-eval
+version: "0.1"
+
+jobs:
+  - name: evaluate-heldout
+    image: <REGISTRY>/finscale-aarch64:latest
+    resources:
+      nodes: 1
+      gpus: 1
+      cpu_cores: 16
+      memory_gb: 128
+    volumes:
+      - name: finscale-data
+        mount_path: /workspace
+    env:
+      HF_HOME: /workspace/.cache/huggingface
+      USE_TF: "0"
+      USE_FLAX: "0"
+    command: >
+      bash -lc "
+      cd /workspace/FinscaleNvidiaPlatform &&
+      python -u evaluate.py --backend peft --model Qwen/Qwen2.5-14B-Instruct
+        --adapter out/adapters --test data/nvidia/heldout_test.jsonl --out-dir out/heldout &&
+      python scripts/plot_evaluation.py --results out/heldout/eval_results.json
+      "

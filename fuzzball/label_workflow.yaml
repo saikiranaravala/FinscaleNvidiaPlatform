@@ -1,0 +1,29 @@
+# TEMPLATE — see fuzzball/README.md before running. Not validated against a live cluster.
+name: finscale-label-72b
+version: "0.1"
+
+jobs:
+  - name: label-with-teacher
+    image: <REGISTRY>/finscale-aarch64:latest
+    resources:
+      nodes: 1
+      gpus: 1          # one GB10; bump to 2 and add tensor-parallel-size 2 if 72B needs both GPUs' memory
+      cpu_cores: 16
+      memory_gb: 200
+    volumes:
+      - name: finscale-data
+        mount_path: /workspace
+    env:
+      HF_HOME: /workspace/.cache/huggingface
+      USE_TF: "0"
+      USE_FLAX: "0"
+    command: >
+      bash -lc "
+      cd /workspace/FinscaleNvidiaPlatform &&
+      python -m vllm.entrypoints.openai.api_server
+        --model Qwen/Qwen2.5-72B-Instruct
+        --tensor-parallel-size 1
+        --port 8000 &
+      sleep 60 &&
+      python scripts/make_data_nvidia.py --labeler-endpoint http://localhost:8000/v1 --labeler-model Qwen/Qwen2.5-72B-Instruct
+      "

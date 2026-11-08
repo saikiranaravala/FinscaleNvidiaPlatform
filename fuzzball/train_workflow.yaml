@@ -1,0 +1,42 @@
+# TEMPLATE — see fuzzball/README.md before running. Not validated against a live cluster.
+name: finscale-train-fsdp
+version: "0.1"
+
+jobs:
+  - name: train-node-0
+    image: <REGISTRY>/finscale-aarch64:latest
+    resources:
+      nodes: 1
+      gpus: 1
+      cpu_cores: 32
+      memory_gb: 200
+    volumes:
+      - name: finscale-data
+        mount_path: /workspace
+    env:
+      HF_HOME: /workspace/.cache/huggingface
+      MASTER_ADDR: <NODE0_ADDR>
+      MASTER_PORT: "29500"
+      NODE_RANK: "0"
+      MODEL: Qwen/Qwen2.5-14B-Instruct
+    command: "bash -lc 'cd /workspace/FinscaleNvidiaPlatform && bash scripts/launch_distributed.sh'"
+
+  - name: train-node-1
+    image: <REGISTRY>/finscale-aarch64:latest
+    resources:
+      nodes: 1
+      gpus: 1
+      cpu_cores: 32
+      memory_gb: 200
+    volumes:
+      - name: finscale-data
+        mount_path: /workspace
+    env:
+      HF_HOME: /workspace/.cache/huggingface
+      MASTER_ADDR: <NODE0_ADDR>
+      MASTER_PORT: "29500"
+      NODE_RANK: "1"
+      MODEL: Qwen/Qwen2.5-14B-Instruct
+    command: "bash -lc 'cd /workspace/FinscaleNvidiaPlatform && bash scripts/launch_distributed.sh'"
+    depends_on:
+      - train-node-0

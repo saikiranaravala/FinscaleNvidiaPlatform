@@ -93,7 +93,30 @@ def stratified_split(records, seed=42):
     return parts
 
 
-def write_splits(source_path: Path, data_dir: Path, seed: int):
+def oversample_minority(train_rows, seed, cap_multiplier=3):
+    """Duplicate under-represented categories in the train split toward the majority count.
+
+    Each category is duplicated at most `cap_multiplier`x its own size, so a single rare
+    category can't be blown up to dominate the dataset just because another category is huge.
+    """
+    groups = collections.defaultdict(list)
+    for r in train_rows:
+        groups[str(r["label"]["category"])].append(r)
+    if not groups:
+        return train_rows
+    majority = max(len(v) for v in groups.values())
+    rng = random.Random(seed)
+    out = []
+    for rows in groups.values():
+        target = min(majority, len(rows) * cap_multiplier)
+        out.extend(rows)
+        if len(rows) < target:
+            out.extend(rng.choices(rows, k=target - len(rows)))
+    rng.shuffle(out)
+    return out
+
+
+def write_splits(source_path: Path, data_dir: Path, seed: int, oversample: bool = False):
     parsed, errors = parse_records(source_path)
     seen, deduped = set(), []
     duplicates = 0
@@ -106,13 +129,15 @@ def write_splits(source_path: Path, data_dir: Path, seed: int):
     if len(deduped) < 3:
         raise ValueError(f"Need at least 3 unique valid records to create splits; found {len(deduped)}")
     splits = stratified_split(deduped, seed)
+    if oversample:
+        splits["train"] = oversample_minority(splits["train"], seed + 1)
     data_dir.mkdir(parents=True, exist_ok=True)
     for name, rows in splits.items():
         with (data_dir / f"{name}.jsonl").open("w", encoding="utf-8") as f:
             for r in rows:
                 f.write(json.dumps(chat_example(r), ensure_ascii=False) + "\n")
     return {"records_read": len(parsed)+len(errors), "valid_records": len(parsed), "unique_records": len(deduped),
-            "exact_duplicates_removed": duplicates, "invalid_lines": errors,
+            "exact_duplicates_removed": duplicates, "invalid_lines": errors, "train_oversampled": oversample,
             "split_counts": {k: len(v) for k,v in splits.items()},
             "split_categories": {k: dict(collections.Counter(str(r['label']['category']) for r in v)) for k,v in splits.items()}}
 
@@ -164,11 +189,38 @@ def run_mlx(args, data_dir, out_dir, prep):
     (out_dir/"metrics.json").write_text(json.dumps(metrics, indent=2)+"\n", encoding="utf-8")
 
 
+class CausalLMCollator:
+    """Pads input_ids/attention_mask with the pad token and labels with -100.
+
+    Unlike DataCollatorForLanguageModeling(mlm=False), this does not overwrite
+    pre-masked labels with a straight copy of input_ids, so prompt tokens stay
+    excluded from the loss (see tokenize() in run_peft).
+    """
+    def __init__(self, pad_token_id):
+        self.pad_token_id = pad_token_id
+
+    def __call__(self, features):
+        import torch
+        max_len = max(len(f["input_ids"]) for f in features)
+        input_ids, attention_mask, labels = [], [], []
+        for f in features:
+            pad = max_len - len(f["input_ids"])
+            input_ids.append(f["input_ids"] + [self.pad_token_id] * pad)
+            attention_mask.append(f["attention_mask"] + [0] * pad)
+            labels.append(f["labels"] + [-100] * pad)
+        return {"input_ids": torch.tensor(input_ids), "attention_mask": torch.tensor(attention_mask),
+                "labels": torch.tensor(labels)}
+
+
 def run_peft(args, data_dir, out_dir, prep):
-    """Optional portable NVIDIA route; lazily imports the torch/Transformers stack."""
+    """Optional portable NVIDIA route; lazily imports the torch/Transformers stack.
+
+    Supports single-GPU and multi-node FSDP (launch via scripts/launch_distributed.sh
+    with --distributed so this process doesn't fight FSDP's own device placement).
+    """
     import torch
     from datasets import load_dataset
-    from transformers import AutoTokenizer, AutoModelForCausalLM, Trainer, TrainingArguments, DataCollatorForLanguageModeling
+    from transformers import AutoTokenizer, AutoModelForCausalLM, Trainer, TrainingArguments
     from peft import LoraConfig, get_peft_model
     model_id=args.model
     tokenizer=AutoTokenizer.from_pretrained(model_id)
@@ -177,34 +229,55 @@ def run_peft(args, data_dir, out_dir, prep):
         raise RuntimeError("PEFT backend requires a CUDA-enabled NVIDIA GPU. Check nvidia-smi and PyTorch installation.")
     dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
     model=AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=dtype)
-    model.to("cuda")
+    if not args.distributed:
+        model.to("cuda")
     model.config.use_cache = False
     model.gradient_checkpointing_enable()
     model=get_peft_model(model, LoraConfig(r=args.lora_r, lora_alpha=args.lora_alpha, lora_dropout=args.lora_dropout,
                                            target_modules="all-linear", task_type="CAUSAL_LM"))
-    ds=load_dataset("json", data_files={k:str(data_dir/f"{k}.jsonl") for k in ("train","valid")})
+
+    max_len = args.max_seq_length or 4096
     def tokenize(ex):
-        texts=[]
+        # Mask the system+user prompt out of the loss so training signal is spent only on the
+        # assistant's JSON label, not on re-learning the fixed instructions and filing excerpt.
+        input_ids_list, labels_list, attn_list = [], [], []
         for messages in ex["messages"]:
-            texts.append(tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False))
-        return tokenizer(texts, truncation=True, max_length=args.max_seq_length or 4096)
+            full_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
+            prompt_text = tokenizer.apply_chat_template(messages[:-1], tokenize=False, add_generation_prompt=True)
+            full_ids = tokenizer(full_text, truncation=True, max_length=max_len)["input_ids"]
+            prompt_len = min(len(tokenizer(prompt_text, truncation=True, max_length=max_len)["input_ids"]), len(full_ids))
+            labels = [-100] * prompt_len + full_ids[prompt_len:]
+            input_ids_list.append(full_ids); labels_list.append(labels); attn_list.append([1] * len(full_ids))
+        return {"input_ids": input_ids_list, "labels": labels_list, "attention_mask": attn_list}
+
+    ds=load_dataset("json", data_files={k:str(data_dir/f"{k}.jsonl") for k in ("train","valid")})
     ds=ds.map(tokenize, batched=True, remove_columns=ds["train"].column_names)
+
+    fsdp_kwargs = {}
+    if args.distributed:
+        fsdp_kwargs = {"fsdp": "full_shard auto_wrap",
+                       "fsdp_config": {"transformer_layer_cls_to_wrap": args.fsdp_layer_cls,
+                                        "backward_prefetch": "backward_pre"}}
     training_args=TrainingArguments(output_dir=str(out_dir/"peft_checkpoints"), num_train_epochs=args.epochs,
         per_device_train_batch_size=args.batch_size, per_device_eval_batch_size=args.batch_size,
+        gradient_accumulation_steps=args.grad_accum_steps,
         learning_rate=args.learning_rate, eval_strategy="steps", eval_steps=args.eval_steps,
         save_strategy="steps", save_steps=args.eval_steps, logging_steps=1,
-        gradient_checkpointing=True, report_to="none", logging_dir=str(out_dir/"tb"))
+        gradient_checkpointing=True, report_to="none", logging_dir=str(out_dir/"tb"), **fsdp_kwargs)
     trainer=Trainer(model=model,args=training_args,train_dataset=ds["train"],eval_dataset=ds["valid"],
-                    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False))
+                    data_collator=CausalLMCollator(tokenizer.pad_token_id))
     start=time.perf_counter(); torch.cuda.reset_peak_memory_stats() if torch.cuda.is_available() else None
     result=trainer.train(); elapsed=time.perf_counter()-start
-    adapter=out_dir/"adapters"; adapter.mkdir(parents=True,exist_ok=True); model.save_pretrained(adapter); tokenizer.save_pretrained(adapter)
-    metrics={**prep,"backend":"peft","model":model_id,"wall_time_seconds":elapsed,
-       "train_metrics":result.metrics,"mean_step_time_seconds":elapsed/max(1,result.global_step),
-       "tokens_per_second_observed":result.metrics.get("train_tokens_per_second"),
-       "peak_memory_gb_observed":torch.cuda.max_memory_allocated()/1024**3 if torch.cuda.is_available() else None,
-       "adapter_path":str(adapter)}
-    (out_dir/"metrics.json").write_text(json.dumps(metrics,indent=2,default=str)+"\n",encoding="utf-8")
+    adapter=out_dir/"adapters"
+    if trainer.is_world_process_zero():
+        adapter.mkdir(parents=True,exist_ok=True); model.save_pretrained(adapter); tokenizer.save_pretrained(adapter)
+        metrics={**prep,"backend":"peft","model":model_id,"wall_time_seconds":elapsed,
+           "distributed":args.distributed,"world_size":int(os.environ.get("WORLD_SIZE",1)),
+           "train_metrics":result.metrics,"mean_step_time_seconds":elapsed/max(1,result.global_step),
+           "tokens_per_second_observed":result.metrics.get("train_tokens_per_second"),
+           "peak_memory_gb_observed":torch.cuda.max_memory_allocated()/1024**3 if torch.cuda.is_available() else None,
+           "adapter_path":str(adapter)}
+        (out_dir/"metrics.json").write_text(json.dumps(metrics,indent=2,default=str)+"\n",encoding="utf-8")
 
 
 def main():
@@ -216,16 +289,23 @@ def main():
     ap.add_argument("--backend",choices=("mlx","peft"),default="mlx",help="mlx for Apple Silicon; peft for PyTorch/PEFT on NVIDIA")
     ap.add_argument("--model",default="Qwen/Qwen2.5-3B-Instruct")
     ap.add_argument("--seed",type=int,default=42); ap.add_argument("--iters",type=int,default=100)
-    ap.add_argument("--epochs",type=float,default=1); ap.add_argument("--batch-size",type=int,default=2)
-    ap.add_argument("--lora-layers",type=int,default=8); ap.add_argument("--lora-r",type=int,default=8)
-    ap.add_argument("--lora-alpha",type=int,default=16); ap.add_argument("--lora-dropout",type=float,default=0.05)
-    ap.add_argument("--learning-rate",type=float,default=1e-5); ap.add_argument("--max-seq-length",type=int,default=4096)
+    ap.add_argument("--epochs",type=float,default=3); ap.add_argument("--batch-size",type=int,default=2)
+    ap.add_argument("--grad-accum-steps",type=int,default=4,help="PEFT only: effective batch = batch-size * grad-accum-steps * world-size")
+    ap.add_argument("--lora-layers",type=int,default=8); ap.add_argument("--lora-r",type=int,default=16)
+    ap.add_argument("--lora-alpha",type=int,default=32); ap.add_argument("--lora-dropout",type=float,default=0.05)
+    ap.add_argument("--learning-rate",type=float,default=2e-4); ap.add_argument("--max-seq-length",type=int,default=4096)
     ap.add_argument("--eval-steps",type=int,default=25); ap.add_argument("--grad-checkpoint",action=argparse.BooleanOptionalAction,default=True)
+    ap.add_argument("--oversample-train",action=argparse.BooleanOptionalAction,default=False,
+                     help="duplicate under-represented categories in the train split to reduce class imbalance")
+    ap.add_argument("--distributed",action=argparse.BooleanOptionalAction,default=False,
+                     help="PEFT only: enable FSDP full-shard training; launch via scripts/launch_distributed.sh")
+    ap.add_argument("--fsdp-layer-cls",default="Qwen2DecoderLayer",
+                     help="transformer decoder layer class to auto-wrap under FSDP; matches the --model family")
     args=ap.parse_args()
     if not args.input.exists(): ap.error(f"input not found: {args.input}")
     records, errors=parse_records(args.input)
     # Split preparation re-reads source intentionally through helper for uniform diagnostics.
-    prep=write_splits(args.input,args.data_dir,args.seed)
+    prep=write_splits(args.input,args.data_dir,args.seed,oversample=args.oversample_train)
     args.out_dir.mkdir(parents=True,exist_ok=True)
     (args.out_dir/"split_report.json").write_text(json.dumps(prep,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(prep,indent=2))

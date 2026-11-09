@@ -171,7 +171,7 @@ def score_generations(generations, n_resamples=300):
     sev_lo,sev_pt,sev_hi=bootstrap_ci(sev_pairs, lambda ps: sum(a==b for a,b in ps)/len(ps) if ps else 0.0, n_resamples)
     f1_lo,f1_pt,f1_hi=bootstrap_ci(cat_pairs, lambda ps: macro_f1([a for a,_ in ps],[b for _,b in ps],cats), n_resamples)
     valid_lo,valid_pt,valid_hi=bootstrap_ci(valid_flags, lambda vs: sum(vs)/len(vs) if vs else 0.0, n_resamples)
-    return {"examples":len(rows),
+    return {"examples":len(generations),
        "valid_json_count":sum(valid_flags),"valid_json_rate":valid_pt,"valid_json_rate_ci":[valid_lo,valid_hi],
        "category_accuracy":acc_pt,"category_accuracy_ci":[acc_lo,acc_hi],
        "category_macro_f1":f1_pt,"category_macro_f1_ci":[f1_lo,f1_hi],

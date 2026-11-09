@@ -1,0 +1,566 @@
+{
+  "backend": "peft",
+  "model": "Qwen/Qwen2.5-14B-Instruct",
+  "adapter": "out/adapters",
+  "test_file": "data/nvidia/test.jsonl",
+  "guided_json": false,
+  "base": {
+    "examples": 20,
+    "valid_json_count": 20,
+    "valid_json_rate": 1.0,
+    "valid_json_rate_ci": [
+      1.0,
+      1.0
+    ],
+    "category_accuracy": 0.65,
+    "category_accuracy_ci": [
+      0.45,
+      0.85
+    ],
+    "category_macro_f1": 0.6336538461538461,
+    "category_macro_f1_ci": [
+      0.315625,
+      0.7130952380952381
+    ],
+    "category_weighted_f1": 0.6424358974358975,
+    "category_confusion_matrix": {
+      "credit": {
+        "credit": 1,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "cybersecurity": {
+        "credit": 0,
+        "cybersecurity": 1,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "liquidity": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "market": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 2,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "operational": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 2,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "other": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 0,
+        "operational": 0,
+        "other": 1,
+        "regulatory_legal": 2,
+        "supply_chain": 1
+      },
+      "regulatory_legal": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 5,
+        "supply_chain": 0,
+        "legal": 1
+      },
+      "supply_chain": {
+        "credit": 1,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      }
+    },
+    "severity_accuracy": 0.6,
+    "severity_accuracy_ci": [
+      0.35,
+      0.85
+    ],
+    "category_labels_scored": [
+      "credit",
+      "cybersecurity",
+      "liquidity",
+      "market",
+      "operational",
+      "other",
+      "regulatory_legal",
+      "supply_chain"
+    ],
+    "per_example": [
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"70,000 current and former Asda store employees who allege their work is of equal value to the work done by employees in Asda's distribution centers and that the difference in pay and conditions between the different jobs is not objectively justified.\", \"explanation\": \"The mention of a significant number of employees alleging unequal pay and conditions suggests potential legal action that could impact the company's compliance and reputation.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"operational\",\n  \"severity\": \"low\",\n  \"evidence\": \"Tesla’s ability to attract, develop and retain a talented workforce is a competitive advantage.\",\n  \"explanation\": \"The excerpt highlights the importance of human capital resources for Tesla's operations, indicating potential risks related to workforce management.\"\n}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "other",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"other\",\n  \"severity\": \"low\",\n  \"evidence\": \"Microsoft Products and Services Agreement\",\n  \"explanation\": \"The excerpt describes the terms of a product and service agreement which does not indicate any specific risk related to market, credit, liquidity, operational, regulatory/legal, cybersecurity, or supply chain issues.\"\n}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"if management makes strategic choices that prove to be incorrect, are based on incomplete, inaccurate or fraudulent information, do not accurately assess the competitive landscape and industry trends, or fail to address changing regulatory and market environments or the expectations of clients, customers, investors, employees and other stakeholders.\", \"explanation\": \"The excerpt highlights potential operational risks stemming from poor strategic decisions and inadequate assessments, which can affect the company's performance and reputation.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"regulatory_legal\",\n  \"severity\": \"medium\",\n  \"evidence\": \"U.S. federal, state and local governments have established various policies, incentives and financial mechanisms to reduce the cost of solar energy and to accelerate the adoption of solar energy.\",\n  \"explanation\": \"The excerpt discusses government policies and incentives related to solar energy, indicating potential regulatory changes that could impact business operations.\"\n}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "low",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"regulatory_legal\",\n  \"severity\": \"medium\",\n  \"evidence\": \"Item 9C. Disclosure Regarding Foreign Jurisdictions that Prevent Inspections\",\n  \"explanation\": \"The mention of disclosure regarding foreign jurisdictions that prevent inspections suggests potential regulatory compliance issues or legal constraints related to international operations.\"\n}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "liquidity",
+        "gold_severity": "low",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"liquidity\", \"severity\": \"medium\", \"evidence\": \"Trade accounts receivable ( 263 ) ( 109 ) 347 Inventories (a) 561 ( 854 ) ( 1,169 ) Other assets 1,289 3,380 ( 663 ) Trade accounts payable ( 469 ) ( 1,023 ) ( 300 ) Other liabilities\", \"explanation\": \"The excerpt shows fluctuations in trade accounts receivable, inventories, and trade accounts payable, which are key indicators of liquidity position and management.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "supply_chain",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"supply_chain\", \"severity\": \"low\", \"evidence\": \"Our customers include individual consumers, small and medium organizations, large global enterprises, public-sector institutions, service providers, application developers, and OEMs.\", \"explanation\": \"The excerpt describes the diversity of customer types and distribution channels, indicating potential supply chain complexity but does not suggest any immediate risk.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "liquidity",
+        "gold_severity": "medium",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"liquidity\",\n  \"severity\": \"low\",\n  \"evidence\": \"Pfizer intends to use the proceeds to support its capital allocation priorities.\",\n  \"explanation\": \"The company is planning to utilize the proceeds from the sale of its investment to manage its capital allocation, indicating a focus on liquidity management.\"\n}"
+      },
+      {
+        "gold_category": "supply_chain",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"we increased the reach-forward loss on the KC-46A Tanker program by $\", \"explanation\": \"The mention of an increased reach-forward loss indicates potential issues with the financial performance of the KC-46A Tanker program, which could affect the company's credit standing and future borrowing capacity.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"legal\",\n  \"severity\": \"medium\",\n  \"evidence\": \"Litigation to defend these claims could be costly and the expenses and damages arising from any liability or unforeseen production risks could harm our results of operations.\",\n  \"explanation\": \"The excerpt indicates potential legal issues related to content liability which could lead to costly litigation and harm the company's operations.\"\n}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Sales of vehicles in the automotive industry tend to be cyclical in many markets, which may expose us to further volatility.\", \"explanation\": \"The mention of cyclical sales patterns in the automotive industry indicates potential fluctuations in demand due to market conditions, which can affect the company's revenue and profitability.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"We are involved in a number of legal proceedings and certain regulatory matters.\", \"explanation\": \"The involvement in multiple legal proceedings and regulatory matters indicates potential risks related to compliance and legal outcomes which could affect the company's financial position.\"}"
+      },
+      {
+        "gold_category": "credit",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"JPMorganChase is exposed to the risk of nonperformance by its clients\", \"explanation\": \"The excerpt indicates exposure to credit risk due to the possibility of client nonperformance, which is mitigated through collateral requirements but still represents a significant operational concern.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "liquidity",
+        "gold_severity": "medium",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"liquidity\", \"severity\": \"low\", \"evidence\": \"a $ 7 billion facility maturing in October 2029, which may be used for general corporate purposes including to support our global commercial paper borrowings\", \"explanation\": \"The mention of significant credit facilities indicates management's access to capital to manage short-term liquidity needs, but does not suggest immediate risk.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"Such agreements can also significantly reduce the Company’s revenue and increase the Company’s cost of sales and operating expenses, materially adversely affecting the Company’s business, results of operations, financial condition and stock price.\", \"explanation\": \"The excerpt highlights significant potential impacts on the company's financial health due to legal settlements, indicating a high severity regulatory/legal risk.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"market\",\n  \"severity\": \"medium\",\n  \"evidence\": \"With the reduction in our Haleon ownership percentage and board representation after the October 2024 sale, we discontinued the application of the equity method to our Haleon investment, and in the fourth quarter of 2024 began to account for the investment as an equity security with a readily determinable fair value, which was carried at fair value at December 31, 2024, with changes in fair value reported in\",\n  \"explanation\": \"The change in accounting method due to reduced ownership indicates potential market risk associated with the fluctuation in the fair value of the investment.\"\n}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "low",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"regulatory_legal\",\n  \"severity\": \"medium\",\n  \"evidence\": \"Item 9C. Disclosure Regarding Foreign Jurisdictions that Prevent Inspections\",\n  \"explanation\": \"The mention of disclosure regarding foreign jurisdictions that prevent inspections suggests potential regulatory or legal issues related to oversight and compliance in international operations.\"\n}"
+      },
+      {
+        "gold_category": "cybersecurity",
+        "pred_category": "cybersecurity",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"cybersecurity\", \"severity\": \"medium\", \"evidence\": \"Item 1C. Cybersecurity\", \"explanation\": \"The filing excerpt specifically mentions 'Cybersecurity' under Item 1C, indicating that the company addresses cybersecurity risks in its filings.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"As a Delaware corporation, we are also subject to certain Delaware anti-takeover provisions.\", \"explanation\": \"The excerpt indicates compliance with specific legal regulations set by Delaware that could affect corporate governance and takeover attempts.\"}"
+      }
+    ]
+  },
+  "fine_tuned": {
+    "examples": 20,
+    "valid_json_count": 20,
+    "valid_json_rate": 1.0,
+    "valid_json_rate_ci": [
+      1.0,
+      1.0
+    ],
+    "category_accuracy": 0.75,
+    "category_accuracy_ci": [
+      0.55,
+      0.95
+    ],
+    "category_macro_f1": 0.6238095238095238,
+    "category_macro_f1_ci": [
+      0.3098484848484848,
+      0.7142857142857143
+    ],
+    "category_weighted_f1": 0.7271428571428571,
+    "category_confusion_matrix": {
+      "credit": {
+        "credit": 1,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "cybersecurity": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 1,
+        "supply_chain": 0
+      },
+      "liquidity": {
+        "credit": 1,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "market": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 2,
+        "operational": 0,
+        "other": 1,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "operational": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 2,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "other": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 0,
+        "operational": 0,
+        "other": 3,
+        "regulatory_legal": 1,
+        "supply_chain": 0
+      },
+      "regulatory_legal": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 6,
+        "supply_chain": 0
+      },
+      "supply_chain": {
+        "credit": 0,
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 1
+      }
+    },
+    "severity_accuracy": 0.95,
+    "severity_accuracy_ci": [
+      0.85,
+      1.0
+    ],
+    "category_labels_scored": [
+      "credit",
+      "cybersecurity",
+      "liquidity",
+      "market",
+      "operational",
+      "other",
+      "regulatory_legal",
+      "supply_chain"
+    ],
+    "per_example": [
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"70,000 current and former Asda store employees who allege their work is of equal value to the work done by employees in Asda's distribution centers.\", \"explanation\": \"This excerpt describes a significant number of employees making equal value claims, which could lead to substantial legal and financial implications for the company.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"low\", \"evidence\": \"Tesla’s ability to attract, develop and retain a talented workforce is a competitive advantage.\", \"explanation\": \"This statement indicates that Tesla values its human capital and has been successful in attracting and retaining talent, which is an operational aspect but not critical enough to be considered high severity.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"low\", \"evidence\": \"Microsoft Products and Services Agreements are designed for medium and large organizations that want to license cloud services and on-premises software as needed.\", \"explanation\": \"This excerpt describes the terms of service agreements which are more administrative in nature rather than indicating significant legal or regulatory risks.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"high\", \"evidence\": \"The values and growth prospects of JPMorganChase’s businesses could suffer and its earnings could decline if management makes strategic choices that prove to be incorrect.\", \"explanation\": \"This statement highlights the risk associated with strategic decisions, which can significantly impact the company's performance and value, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"Residential credits expired on December 31, 2025. Commercial credits are currently scheduled to expire for solar facilities placed in service after December 31, 2027.\", \"explanation\": \"The expiration dates of tax credits pose a risk to the business model, potentially affecting customer adoption and revenue.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "other",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"low\", \"evidence\": \"PART III. Item 10. Directors, Executive Officers and Corporate Governance\", \"explanation\": \"This excerpt refers to corporate governance information which is typically considered administrative rather than a significant risk factor.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "liquidity",
+        "gold_severity": "low",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"liquidity\", \"severity\": \"medium\", \"evidence\": \"( 470 ) ( 2,260 ) ( 3,492 ) Other changes in assets and liabilities, net of acquisitions and divestitures:\", \"explanation\": \"This excerpt shows significant fluctuations in trade accounts receivable and inventories, indicating potential liquidity risks as these are key components affecting cash flow.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "other",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"low\", \"evidence\": \"Our sales organization performs a variety of functions, including working directly with commercial enterprises and public-sector organizations worldwide.\", \"explanation\": \"This excerpt describes the company's sales and marketing activities without indicating any specific risks that would be categorized as market, credit, liquidity, operational, regulatory/legal, cybersecurity, or supply chain risks.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"We intend to monetize our remaining Haleon investment in a prudent fashion during 2025.\", \"explanation\": \"This statement indicates potential future actions that could impact the company's financial position, classifying it as an 'other' risk. The intention to monetize the investment suggests ongoing management of this asset, which could introduce variability in earnings and cash flow, hence the medium severity.\"}"
+      },
+      {
+        "gold_category": "supply_chain",
+        "pred_category": "supply_chain",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"supply_chain\", \"severity\": \"medium\", \"evidence\": \"The KC-46A Tanker is a derivative of the 767 commercial airplane program with the majority of the manufacturing costs being incurred in the 767 factory.\", \"explanation\": \"This excerpt indicates reliance on the 767 commercial airplane program for manufacturing costs, suggesting potential supply chain risks if issues arise with this program.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"Litigation to defend these claims could be costly and the expenses and damages arising from any liability or unforeseen production risks could harm our results of operations.\", \"explanation\": \"The excerpt highlights potential legal and regulatory risks related to content acquisition and distribution, which can lead to significant financial impacts through litigation costs and damages.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"high\", \"evidence\": \"Rising interest rates may lead to consumers to increasingly pull back spending, including on our products, which may harm our demand, business and operating results.\", \"explanation\": \"This statement indicates significant market risk due to consumer behavior changes driven by economic factors, potentially harming the company's sales and financial performance.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"We are involved in a number of legal proceedings and certain regulatory matters.\", \"explanation\": \"The company is engaged in multiple legal and regulatory proceedings, indicating potential risks that could impact its operations and financial health.\"}"
+      },
+      {
+        "gold_category": "credit",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"JPMorganChase is exposed to the risk of nonperformance by its clients, which it seeks to mitigate by requiring clients to provide adequate collateral.\", \"explanation\": \"This excerpt describes credit risk related to client nonperformance, indicating a medium severity as it involves potential losses but includes mitigation measures.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"8 billion facility maturing in October 2025 (subsequently terminated by Pfizer in February 2025)\", \"explanation\": \"This excerpt discusses large credit facilities that could impact the company's ability to manage its debt, indicating a medium severity level.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"defending against litigation or responding to government investigations can be expensive, time-consuming and disruptive to the Company’s operations.\", \"explanation\": \"The excerpt highlights significant legal and regulatory risks that can be costly and disruptive, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"With the reduction in our Haleon ownership percentage and board representation after the October 2024 sale, we discontinued the application of the equity method to our Haleon investment.\", \"explanation\": \"This excerpt indicates a change in accounting treatment due to a reduction in ownership, which can impact the company's financial reporting and thus its market risk exposure.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "other",
+        "gold_severity": "low",
+        "pred_severity": "low",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"low\", \"evidence\": \"PART III. Item 10. Directors, Executive Officers and Corporate Governance\", \"explanation\": \"This excerpt refers to corporate governance information which is typically considered administrative rather than a significant risk factor.\"}"
+      },
+      {
+        "gold_category": "cybersecurity",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"Item 3. Legal Proceedings 18\", \"explanation\": \"The mention of legal proceedings suggests potential legal risks which could impact the company's operations and financial health.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"Under Delaware law, a corporation may not engage in a business combination with any holder of 15% or more of its capital stock unless the holder has held the stock for three years.\", \"explanation\": \"This excerpt describes legal restrictions that can prevent or delay corporate takeovers, which falls under regulatory/legal risks and is considered medium severity due to its potential impact on corporate governance and strategic decisions.\"}"
+      }
+    ]
+  }
+}

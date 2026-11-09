@@ -1,0 +1,45 @@
+{
+  "records_read": 219,
+  "valid_records": 219,
+  "unique_records": 217,
+  "exact_duplicates_removed": 2,
+  "invalid_lines": [],
+  "train_oversampled": false,
+  "split_counts": {
+    "train": 173,
+    "valid": 24,
+    "test": 20
+  },
+  "split_categories": {
+    "train": {
+      "other": 40,
+      "regulatory_legal": 52,
+      "supply_chain": 12,
+      "market": 28,
+      "cybersecurity": 11,
+      "credit": 12,
+      "operational": 16,
+      "liquidity": 2
+    },
+    "valid": {
+      "supply_chain": 2,
+      "liquidity": 1,
+      "operational": 2,
+      "regulatory_legal": 7,
+      "other": 5,
+      "market": 4,
+      "credit": 2,
+      "cybersecurity": 1
+    },
+    "test": {
+      "regulatory_legal": 6,
+      "operational": 2,
+      "other": 5,
+      "market": 3,
+      "supply_chain": 1,
+      "credit": 1,
+      "liquidity": 1,
+      "cybersecurity": 1
+    }
+  }
+}

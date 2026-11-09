@@ -1,0 +1,1044 @@
+{
+  "backend": "peft",
+  "model": "Qwen/Qwen2.5-14B-Instruct",
+  "adapter": "out/adapters",
+  "test_file": "data/nvidia/heldout_test.jsonl",
+  "guided_json": false,
+  "base": {
+    "examples": 52,
+    "valid_json_count": 52,
+    "valid_json_rate": 1.0,
+    "valid_json_rate_ci": [
+      1.0,
+      1.0
+    ],
+    "category_accuracy": 0.7307692307692307,
+    "category_accuracy_ci": [
+      0.6153846153846154,
+      0.8653846153846154
+    ],
+    "category_macro_f1": 0.5256487994178995,
+    "category_macro_f1_ci": [
+      0.30208804121847604,
+      0.6135181345265378
+    ],
+    "category_weighted_f1": 0.767035065952723,
+    "category_confusion_matrix": {
+      "cybersecurity": {
+        "cybersecurity": 1,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "liquidity": {
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0,
+        "credit": 2
+      },
+      "market": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 5,
+        "operational": 0,
+        "other": 2,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "operational": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 5,
+        "operational": 17,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0,
+        "credit": 1
+      },
+      "other": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 1,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "regulatory_legal": {
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 1,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 14,
+        "supply_chain": 0
+      },
+      "supply_chain": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 1,
+        "supply_chain": 0
+      }
+    },
+    "severity_accuracy": 0.6730769230769231,
+    "severity_accuracy_ci": [
+      0.5384615384615384,
+      0.8076923076923077
+    ],
+    "category_labels_scored": [
+      "cybersecurity",
+      "liquidity",
+      "market",
+      "operational",
+      "other",
+      "regulatory_legal",
+      "supply_chain"
+    ],
+    "per_example": [
+      {
+        "gold_category": "operational",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"the potential impairment of tangible and intangible assets and goodwill, including as a result of acquisitions\", \"explanation\": \"The mention of potential asset impairment, especially in the context of acquisitions, suggests a risk related to the valuation and performance of acquired assets, which is a credit risk factor.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"the difficulty of integrating a new company’s accounting, financial and sustainability reporting, management, information and data security, human resource, and other administrative systems to permit effective management, and the lack of control if such integration is delayed or not successfully implemented\", \"explanation\": \"The excerpt highlights operational risks associated with integrating new companies, which can affect various internal systems and processes, potentially leading to inefficiencies and loss of control.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"Failures to adequately predict customer demand and consumer spending patterns or otherwise optimize and operate our fulfillment network and data centers successfully from time to time result in excess or insufficient fulfillment or data center capacity, service interruptions, increased costs, and impairment charges, any of which could materially harm our business.\", \"explanation\": \"The excerpt discusses operational risks related to the management and optimization of fulfillment networks and data centers, which can lead to service disruptions and financial losses if not handled properly.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Competition continues to intensify, including with the development of new business models and the entry of new and well-funded competitors, and as our competitors enter into business combinations or alliances and established companies in other market segments expand to become competitive with our business.\", \"explanation\": \"The excerpt highlights increasing competition from various sources, indicating potential challenges in maintaining market share and profitability.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"We are not always able to discover or determine the extent of any unauthorized use of our proprietary rights.\", \"explanation\": \"The excerpt indicates concerns about the unauthorized use of the company's proprietary rights, which falls under regulatory and legal risks due to potential infringement issues.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"the difficulty of implementing at companies we acquire the controls, procedures, and policies appropriate for a larger public company\", \"explanation\": \"This statement highlights operational challenges related to integrating acquired companies into existing processes, indicating potential inefficiencies or disruptions.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "liquidity",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"liquidity\", \"severity\": \"medium\", \"evidence\": \"Our accounts payable balance generally declines during the first three months of the year as vendors and sellers are paid, resulting in a corresponding decline in our cash, cash equivalents, and marketable securities balances.\", \"explanation\": \"The excerpt indicates seasonal fluctuations in liquidity, particularly around the holiday season and the following quarter, affecting cash, cash equivalents, and marketable securities balances.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"the outcomes of legal proceedings and claims, which may include significant monetary damages or injunctive relief and could have a material adverse impact on our operating results\", \"explanation\": \"The mention of legal proceedings and potential significant monetary damages or injunctive relief indicates a risk related to regulatory and legal issues that could affect the company's operating results.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"failure to optimize inventory management or staffing in our fulfillment network increases our net shipping cost\", \"explanation\": \"The excerpt highlights operational risks related to inventory management and staffing issues within Amazon's fulfillment network, which can lead to increased costs and inefficiencies.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Volatility in our stock price could adversely affect our business and financing opportunities\", \"explanation\": \"The excerpt indicates concern over stock price volatility affecting business and financing opportunities, which is indicative of market risk.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"disruption of our ongoing business, including loss of management focus on existing businesses\", \"explanation\": \"The mention of business disruption and loss of management focus indicates potential operational issues that could moderately affect the company's performance.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"We may in the future enter into amendments on less favorable terms or encounter parties that have difficulty meeting their contractual obligations to us\", \"explanation\": \"The excerpt indicates potential difficulties in maintaining or renegotiating contracts on favorable terms, suggesting a risk related to counterparty creditworthiness.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"regulatory_legal\",\n  \"severity\": \"medium\",\n  \"evidence\": \"The law relating to the liability of online service providers is currently unsettled.\",\n  \"explanation\": \"The excerpt indicates uncertainty in the legal framework governing online service providers' liability, which poses potential risks related to regulatory compliance and legal actions.\"\n}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"lower levels of use of the internet; lower levels of consumer spending and fewer opportunities for growth compared to the U.S.\", \"explanation\": \"The excerpt indicates potential challenges related to market conditions such as reduced internet usage and consumer spending, which can affect business growth opportunities.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"In certain international market segments, we have relatively little operating experience and may not benefit from any first-to-market advantages or otherwise succeed.\", \"explanation\": \"The excerpt indicates potential challenges in new international markets due to lack of experience, which can affect market entry success and profitability.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"regulatory_legal\",\n  \"severity\": \"medium\",\n  \"evidence\": \"compliance with the U.S. Foreign Corrupt Practices Act and other applicable U.S. and foreign laws prohibiting corrupt payments to government officials and other third parties\",\n  \"explanation\": \"The mention of compliance with the U.S. Foreign Corrupt Practices Act and other relevant laws indicates potential legal and regulatory risks that could impact the company's operations.\"\n}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "liquidity",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"liquidity\", \"severity\": \"medium\", \"evidence\": \"limitations on the repatriation and investment of funds and foreign currency exchange restrictions; shorter payable and longer receivable cycles and the resultant negative impact on cash flow;\", \"explanation\": \"The excerpt mentions limitations on fund repatriation and foreign currency exchange restrictions which can affect liquidity. Additionally, it notes shorter payable and longer receivable cycles that negatively impact cash flow, indicating potential liquidity strain.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"We may in the future enter into amendments on less favorable terms or encounter parties that have difficulty meeting their contractual obligations to us\", \"explanation\": \"The excerpt indicates potential difficulties in maintaining or renegotiating contracts on favorable terms, suggesting a risk related to counterparty creditworthiness.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"disruption of our ongoing business, including loss of management focus on existing businesses\", \"explanation\": \"The mention of potential disruptions to ongoing business operations and loss of management focus indicates operational risks associated with acquisitions and investments.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"These arrangements are complex and require substantial infrastructure capacity, personnel, and other resource commitments, which may limit the amount of business we can service.\", \"explanation\": \"The complexity and resource requirements of commercial agreements suggest potential operational challenges in managing and scaling these relationships.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"the introduction of competitive stores, websites, products, services, price decreases, or improvements\", \"explanation\": \"This statement indicates potential competition threats which can affect market share and pricing power, hence impacting the company's financial performance.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"regulatory_legal\",\n  \"severity\": \"high\",\n  \"evidence\": \"Should any of our estimates and assumptions change or prove to have been incorrect, it could have a material effect on our business, consolidated financial position, results of operations, or cash flows.\",\n  \"explanation\": \"The excerpt discusses potential material effects on the company's financials due to changes in estimates and assumptions related to legal matters, indicating a high severity risk.\"\n}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"We experience occasional system interruptions and delays that make our websites and services unavailable or slow to respond and prevent us from efficiently accepting or fulfilling orders or providing services to customers and third parties, which may reduce our net sales and the attractiveness of our products and services.\", \"explanation\": \"The excerpt discusses potential operational issues related to system interruptions and delays that can impact service delivery and customer satisfaction, affecting net sales and business attractiveness.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"These organizational efforts, if successful, decrease our operational flexibility, which could adversely affect our operating efficiency.\", \"explanation\": \"The excerpt indicates potential risks to operational flexibility and efficiency due to labor union activities, which directly impacts operations.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Our Expansion into New Products, Services, Technologies, and Geographic Regions Subjects Us to Additional Risks\", \"explanation\": \"The excerpt indicates potential risks associated with entering new markets where the company has limited experience, which is a market risk due to uncertainties in customer adoption and competitive dynamics.\"}"
+      },
+      {
+        "gold_category": "supply_chain",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"regulatory and trade restrictions, tariff policy changes and trade disputes, data protection and cybersecurity laws, economic factors, geopolitical events, security issues, or other factors negatively impacting China-based sellers and suppliers could adversely affect our operating results.\", \"explanation\": \"The excerpt highlights multiple regulatory and legal risks that could significantly impact Amazon's operations due to their reliance on China-based sellers and suppliers.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Volatility in our stock price could adversely affect our business and financing opportunities\", \"explanation\": \"The excerpt indicates concern over stock price volatility affecting business and financing opportunities, which is indicative of market risk.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"actions by policy-makers, regulators, or other actors to delay or deny necessary licenses and permits, restrict the availability of oil and gas leases or the transportation or export of our products, reduce or retract government incentives for emissions reductions, or otherwise require changes in the Company's business or strategy that could result in reduced returns\", \"explanation\": \"The excerpt highlights potential regulatory actions that could significantly impact the company's operations and returns, indicating a regulatory/legal risk.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"market\",\n  \"severity\": \"medium\",\n  \"evidence\": \"Failure or delay of these policies or markets to materialize or be maintained could adversely impact these investments.\",\n  \"explanation\": \"The excerpt discusses the potential adverse impacts on investments due to failure or delays in the development of supportive government policies and markets, indicating a risk related to market conditions.\"\n}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"regulatory interpretations that exclude or disfavor our products under government policies or programs intended to support new or developing markets or technologies\", \"explanation\": \"The excerpt indicates potential regulatory changes that could negatively impact the company's products, suggesting a medium level of risk due to possible shifts in government support for certain technologies.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"changes in law or interpretation of settled law, including changes that result from international treaties and accords or changes by local jurisdictions encroaching on national regulatory frameworks or global issues, and changes in policy\", \"explanation\": \"The excerpt highlights potential risks due to changes in laws, policies, and regulations which can impact the company's operations and results negatively.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Actual future results, including project completion dates, production rates, capital expenditures, costs, and business plans could differ materially due to, among other things, the factors discussed above and elsewhere in this report.\", \"explanation\": \"The statement indicates potential variability in future outcomes related to market conditions affecting project completion, production, and costs.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Our ability to maintain and grow our oil and gas production depends on the success of our exploration and development efforts.\", \"explanation\": \"The statement indicates dependency on exploration and development for maintaining and growing production, which is influenced by market conditions such as commodity prices and demand.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"ExxonMobil’s financial and operating results are subject to a variety of risks inherent in the global oil, gas, and petrochemical businesses and the pursuit of lower-emission and other new business opportunities.\", \"explanation\": \"The excerpt broadly mentions various risks without specifying them, indicating a range of potential issues that could impact the company's operations and financials across different sectors and initiatives.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"adoption of disclosure regulations that could create competitive disadvantages, require us to incur disproportionate costs, or increase legal risk\", \"explanation\": \"The excerpt indicates concerns over new regulations that may impose significant costs and legal risks, affecting operations in various jurisdictions.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\n  \"category\": \"operational\",\n  \"severity\": \"medium\",\n  \"evidence\": \"ExxonMobil’s technology, research, and development organizations must be successful and able to adapt to a changing market, regulatory, and policy environment\",\n  \"explanation\": \"The emphasis on the necessity for ExxonMobil's technology, research, and development organizations to adapt to changes indicates potential operational challenges related to maintaining competitiveness and adapting to new technologies and regulations.\"\n}"
+      },
+      {
+        "gold_category": "cybersecurity",
+        "pred_category": "cybersecurity",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"cybersecurity\", \"severity\": \"medium\", \"evidence\": \"cybersecurity attacks\", \"explanation\": \"The excerpt mentions cybersecurity attacks as a potential risk that could disrupt operations, indicating a concern related to cybersecurity.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"Our operations may be disrupted by severe weather events, natural disasters, human error, and similar events.\", \"explanation\": \"The excerpt discusses potential disruptions to operations due to various events, indicating operational risk. The severity is medium as it outlines specific risks but also mentions measures to mitigate them.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"continuous management focus, including technology integration and improvements, cost control, productivity enhancements, harmonizing functions, policies, procedures and processes, regular reappraisal of our asset portfolio, and the recruitment, development, and retention of high caliber employees.\", \"explanation\": \"The excerpt highlights operational challenges related to integration, cost control, and workforce management following acquisitions, indicating potential operational risks.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"government actions to cancel contracts, redenominate the official currency, renounce or default on obligations, renegotiate terms unilaterally, or expropriate assets.\", \"explanation\": \"The mention of potential government actions that could significantly impact contractual agreements and asset value indicates a high regulatory and legal risk.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"For projects in which we are not the operator, we depend on the management effectiveness of one or more co-venturers whom we do not control.\", \"explanation\": \"The excerpt highlights dependence on co-venturers for project management where direct control is lacking, indicating potential operational risks.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Our ability to maintain and grow our oil and gas production depends on the success of our exploration and development efforts.\", \"explanation\": \"The statement indicates dependency on exploration and development for maintaining and growing production, which is influenced by market conditions such as commodity prices and demand.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Actual future results, including project completion dates, production rates, capital expenditures, costs, and business plans could differ materially due to, among other things, the factors discussed above and elsewhere in this report.\", \"explanation\": \"The statement indicates potential discrepancies between projected and actual outcomes which can affect market perception and performance.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"Access limitations. A number of countries limit access to their oil and gas resources, including by restricting leasing, licensing, or permitting activities directly or indirectly through the influence on these processes by well-funded local or international groups opposing the development of these resources.\", \"explanation\": \"The excerpt highlights regulatory and legal risks related to access limitations imposed by various countries on oil and gas resources, which can significantly impact business operations.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"ExxonMobil’s financial and operating results are subject to a variety of risks inherent in the global oil, gas, and petrochemical businesses and the pursuit of lower-emission and other new business opportunities.\", \"explanation\": \"The excerpt broadly mentions various risks without specifying them, indicating a range of potential issues that could impact the company's operations and financials across different sectors and initiatives.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"To maintain our competitive position, especially in light of the technological nature of our businesses, the dynamic and rapidly evolving technological landscape, and the need for continuous efficiency improvement\", \"explanation\": \"The excerpt highlights the operational challenges related to maintaining competitiveness through continuous technological adaptation and efficiency improvements.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"Operational efficiency. An important component of ExxonMobil’s competitive performance, especially given the commodity-based nature of many of our businesses, is our ability to operate efficiently, including our ability to manage expenses, improve production yields on an ongoing basis, and successfully integrate and achieve the anticipated synergies of acquisitions.\", \"explanation\": \"The excerpt emphasizes the importance of operational efficiency for competitive performance, highlighting the need for effective expense management, production improvement, and successful acquisition integration.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"regulatory interpretations that exclude or disfavor our products under government policies or programs intended to support new or developing markets or technologies\", \"explanation\": \"The excerpt indicates potential regulatory changes that could negatively impact the company's products, suggesting a medium risk due to possible future regulatory actions.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"Our operations may be disrupted by severe weather events, natural disasters, human error, and similar events.\", \"explanation\": \"The excerpt discusses potential disruptions to operations due to various events, indicating operational risk. The mention of severe weather and natural disasters suggests a significant but not necessarily catastrophic impact, hence medium severity.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"For projects in which we are not the operator, we depend on the management effectiveness of one or more co-venturers whom we do not control.\", \"explanation\": \"The excerpt highlights dependency on co-venturers for project management where direct control is lacking, indicating potential operational risks.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"changes in law or interpretation or enforcement of settled law, including changes that result from concerted efforts to increase our legal exposure by groups opposed to the products we provide or international treaties and accords or changes by local jurisdictions encroaching on national regulatory frameworks or global issues or changes resulting from imposition of extraterritorial laws and regulations\", \"explanation\": \"The excerpt highlights potential changes in laws and regulations that could impact ExxonMobil's operations, indicating a moderate risk due to the broad range of possible regulatory shifts and their potential adverse effects.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"unstable policies or shifting regulations impacting new or emerging markets\", \"explanation\": \"The mention of unstable policies and shifting regulations indicates potential regulatory changes that could affect operations in new or emerging markets.\"}"
+      }
+    ]
+  },
+  "fine_tuned": {
+    "examples": 52,
+    "valid_json_count": 52,
+    "valid_json_rate": 1.0,
+    "valid_json_rate_ci": [
+      1.0,
+      1.0
+    ],
+    "category_accuracy": 0.7307692307692307,
+    "category_accuracy_ci": [
+      0.6153846153846154,
+      0.8461538461538461
+    ],
+    "category_macro_f1": 0.4776984919842063,
+    "category_macro_f1_ci": [
+      0.32277265745007677,
+      0.5949579831932773
+    ],
+    "category_weighted_f1": 0.7753317195624887,
+    "category_confusion_matrix": {
+      "cybersecurity": {
+        "cybersecurity": 1,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "liquidity": {
+        "cybersecurity": 0,
+        "liquidity": 1,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0,
+        "credit": 2
+      },
+      "market": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 5,
+        "operational": 0,
+        "other": 2,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "operational": {
+        "cybersecurity": 2,
+        "liquidity": 0,
+        "market": 1,
+        "operational": 16,
+        "other": 3,
+        "regulatory_legal": 1,
+        "supply_chain": 0
+      },
+      "other": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 1,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 0,
+        "supply_chain": 0
+      },
+      "regulatory_legal": {
+        "cybersecurity": 1,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 15,
+        "supply_chain": 0
+      },
+      "supply_chain": {
+        "cybersecurity": 0,
+        "liquidity": 0,
+        "market": 0,
+        "operational": 0,
+        "other": 0,
+        "regulatory_legal": 1,
+        "supply_chain": 0
+      }
+    },
+    "severity_accuracy": 0.9038461538461539,
+    "severity_accuracy_ci": [
+      0.8076923076923077,
+      0.9807692307692307
+    ],
+    "category_labels_scored": [
+      "cybersecurity",
+      "liquidity",
+      "market",
+      "operational",
+      "other",
+      "regulatory_legal",
+      "supply_chain"
+    ],
+    "per_example": [
+      {
+        "gold_category": "operational",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"obtaining regulatory approvals or satisfying other closing conditions\", \"explanation\": \"This excerpt highlights risks related to regulatory approvals and legal requirements for completing acquisitions, which can be significant and time-consuming.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"the difficulty of integrating a new company’s accounting, financial and sustainability reporting, management, information and data security, human resource, and other administrative systems\", \"explanation\": \"This excerpt highlights operational risks associated with integrating new acquisitions, which can lead to delays and increased costs, impacting the company's ability to manage effectively.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"high\", \"evidence\": \"Failures to adequately predict customer demand and consumer spending patterns or otherwise optimize and operate our fulfillment network and data centers successfully from time to time result in excess or insufficient fulfillment or data center capacity, service interruptions, increased costs, and impairment charges.\", \"explanation\": \"The excerpt highlights significant operational risks related to predicting demand and managing fulfillment networks, which can lead to substantial negative impacts on the business.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"high\", \"evidence\": \"Competition continues to intensify, including with the development of new business models and the entry of new and well-funded competitors.\", \"explanation\": \"The excerpt highlights significant market competition, which poses a high risk to the company's success and profitability.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "cybersecurity",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"cybersecurity\", \"severity\": \"medium\", \"evidence\": \"We are not always able to discover or determine the extent of any unauthorized use of our proprietary rights.\", \"explanation\": \"This statement indicates potential vulnerabilities in protecting intellectual property, which falls under cybersecurity risks, and suggests a medium severity due to the ongoing nature of these threats.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"the difficulty of implementing at companies we acquire the controls, procedures, and policies appropriate for a larger public company\", \"explanation\": \"This statement indicates challenges in integrating acquired companies into existing operations, suggesting operational risks that could impact business continuity and efficiency.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "liquidity",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"liquidity\", \"severity\": \"medium\", \"evidence\": \"Our accounts payable balance generally declines during the first three months of the year as vendors and sellers are paid, resulting in a corresponding decline in our cash, cash equivalents, and marketable securities balances.\", \"explanation\": \"This excerpt describes seasonal fluctuations in cash and accounts payable, indicating potential liquidity risks during specific periods.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"the outcomes of legal proceedings and claims, which may include significant monetary damages or injunctive relief and could have a material adverse impact on our operating results.\", \"explanation\": \"This statement indicates potential for significant legal risks that could materially affect the company's operations, classifying it as high severity under regulatory/legal category.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"failure to optimize inventory management or staffing in our fulfillment network increases our net shipping cost\", \"explanation\": \"The excerpt highlights operational risks related to inventory and staffing, which directly impact costs and efficiency.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"high\", \"evidence\": \"Volatility in our stock price could adversely affect our business and financing opportunities.\", \"explanation\": \"The excerpt highlights significant market volatility impacting the company's business and financing, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"disruption of our ongoing business, including loss of management focus on existing businesses\", \"explanation\": \"This statement indicates potential operational disruptions due to acquisition activities, which can lead to significant internal challenges and resource allocation issues.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"We may in the future enter into amendments on less favorable terms or encounter parties that have difficulty meeting their contractual obligations to us.\", \"explanation\": \"This statement indicates potential credit risk due to the possibility of unfavorable contract terms or counterparty default, which can impact the company's operations.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"governmental agencies have in the past and could in the future require changes in the way this business is conducted.\", \"explanation\": \"The excerpt highlights potential legal and regulatory risks due to ongoing uncertainty around liability for online service providers, which could lead to significant changes in business operations and increased costs.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"difficulty in staffing, developing, and managing foreign operations as a result of distance, language, and cultural differences\", \"explanation\": \"This statement indicates challenges in operating internationally due to geographical, linguistic, and cultural barriers, which can impact business efficiency and effectiveness.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"In certain international market segments, we have relatively little operating experience and may not benefit from any first-to-market advantages or otherwise succeed.\", \"explanation\": \"This statement indicates potential challenges in new markets due to lack of experience, which can impact profitability and success.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"compliance with the U.S. Foreign Corrupt Practices Act and other applicable U.S. and foreign laws prohibiting corrupt payments to government officials and other third parties.\", \"explanation\": \"This excerpt highlights the company's need to comply with various legal and regulatory requirements, which can pose significant risks if not managed properly.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"laws and regulations regarding privacy, data use, data protection, data security, data localization, network security, consumer protection, payments, advertising, and restrictions on pricing or discounts.\", \"explanation\": \"The excerpt highlights multiple legal and regulatory risks related to various aspects of business operations, which can significantly impact the company's ability to operate freely and comply with local laws.\"}"
+      },
+      {
+        "gold_category": "liquidity",
+        "pred_category": "credit",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"credit\", \"severity\": \"medium\", \"evidence\": \"We may in the future enter into amendments on less favorable terms or encounter parties that have difficulty meeting their contractual obligations to us.\", \"explanation\": \"This statement indicates potential credit risk due to the possibility of unfavorable contract terms or counterparty default, which can impact the company's operations.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"disruption of our ongoing business, including loss of management focus on existing businesses\", \"explanation\": \"The excerpt highlights operational risks related to business disruptions and loss of management focus, indicating a medium severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"These arrangements are complex and require substantial infrastructure capacity, personnel, and other resource commitments, which may limit the amount of business we can service.\", \"explanation\": \"The complexity and resource requirements of commercial agreements indicate operational risks that could impact the company's ability to scale its operations.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"the introduction of competitive stores, websites, products, services, price decreases, or improvements\", \"explanation\": \"This statement indicates potential market risks due to competition and pricing pressures, which can significantly impact business performance.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"Until the final resolution of such matters, we may be exposed to losses in excess of the amount recorded, and such amounts could be material.\", \"explanation\": \"The excerpt highlights potential material losses due to unresolved legal matters, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"high\", \"evidence\": \"Steps we take to add software and hardware, upgrade our systems and network infrastructure, and improve the stability and efficiency of our systems may not be sufficient to avoid system interruptions or delays.\", \"explanation\": \"The excerpt highlights significant risks related to system interruptions and lack of redundancy, which can severely impact business operations and customer satisfaction.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"These organizational efforts, if successful, decrease our operational flexibility, which could adversely affect our operating efficiency.\", \"explanation\": \"The excerpt highlights potential decreases in operational flexibility due to labor union activities, indicating a medium severity risk to operations.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"We may have limited or no experience in our newer market segments, and our customers may not adopt our product or service offerings.\", \"explanation\": \"This excerpt highlights risks related to entering new markets and products where the company has little experience, which could lead to customer adoption issues and potential legal claims.\"}"
+      },
+      {
+        "gold_category": "supply_chain",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"regulatory and trade restrictions, tariff policy changes and trade disputes, data protection and cybersecurity laws, economic factors, geopolitical events, security issues\", \"explanation\": \"The excerpt highlights multiple regulatory and legal risks related to China, which can significantly impact Amazon's operations due to its reliance on Chinese sellers and suppliers.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"high\", \"evidence\": \"Volatility in our stock price could adversely affect our business and financing opportunities.\", \"explanation\": \"The excerpt highlights significant market volatility impacting the company's business and financing, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"actions by policy-makers, regulators, or other actors to delay or deny necessary licenses and permits\", \"explanation\": \"This excerpt highlights potential delays or denials of licenses and permits due to regulatory actions, which can significantly impact the company's operations and returns.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"Failure or delay of these policies or markets to materialize or be maintained could adversely impact these investments.\", \"explanation\": \"The excerpt highlights the significant dependence on government policies and market developments for successful energy transitions, indicating a high severity due to potential adverse impacts on investments.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"regulatory interpretations that exclude or disfavor our products under government policies or programs\", \"explanation\": \"This excerpt highlights potential regulatory risks that could significantly impact the company's product offerings and market access, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"medium\", \"evidence\": \"changes in law or interpretation of settled law, including changes that result from international treaties and accords\", \"explanation\": \"The excerpt highlights exposure to regulatory and legal risks due to potential changes in laws and policies, which can significantly impact business operations.\"}"
+      },
+      {
+        "gold_category": "other",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Actual future results, including project completion dates, production rates, capital expenditures, costs, and business plans could differ materially.\", \"explanation\": \"This statement indicates potential variability in future outcomes due to market conditions, which is characteristic of market risk.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"Our ability to maintain and grow our oil and gas production depends on the success of our exploration and development efforts.\", \"explanation\": \"This statement indicates reliance on successful exploration and development, which is not directly related to market, credit, liquidity, operational, regulatory/legal, cybersecurity, or supply chain risks, thus falling under 'other'. The medium severity reflects the importance of these activities for business growth.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"ExxonMobil’s financial and operating results are subject to a variety of risks inherent in the global oil, gas, and petrochemical businesses.\", \"explanation\": \"This statement indicates exposure to multiple external risks that can impact the company's performance, classifying it as 'other' and medium severity.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"adoption of disclosure regulations that could create competitive disadvantages, require us to incur disproportionate costs, or increase legal risk\", \"explanation\": \"The excerpt highlights potential regulatory and legal risks such as competitive disadvantages, increased costs, and legal risks due to disclosure requirements, which are significant factors affecting business operations.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "cybersecurity",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"cybersecurity\", \"severity\": \"medium\", \"evidence\": \"To remain competitive, we must also continuously adapt and capture the benefits of new and emerging technologies, including successfully applying advances in the ability to process very large amounts of data to our businesses.\", \"explanation\": \"The excerpt highlights the importance of adapting to new technologies, particularly those involving data processing, which can be vulnerable to cybersecurity risks.\"}"
+      },
+      {
+        "gold_category": "cybersecurity",
+        "pred_category": "cybersecurity",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"cybersecurity\", \"severity\": \"high\", \"evidence\": \"cybersecurity attacks, the application of national security laws or policies\", \"explanation\": \"The excerpt highlights potential disruptions due to cybersecurity threats and national security policies, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"Our operations may be disrupted by severe weather events, natural disasters, human error, and similar events.\", \"explanation\": \"The excerpt highlights potential disruptions due to various operational risks such as severe weather and natural disasters, indicating a medium severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"continuous management focus, including technology integration and improvements, cost control, productivity enhancements, harmonizing functions, policies, procedures and processes\", \"explanation\": \"The excerpt highlights ongoing operational challenges such as technology integration, cost control, and process harmonization, indicating a medium severity level.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"government actions to cancel contracts, redenominate the official currency, renounce or default on obligations, renegotiate terms unilaterally, or expropriate assets.\", \"explanation\": \"This excerpt highlights significant regulatory and legal risks, including potential expropriation and contract cancellations, which can have a substantial impact on the company's operations and financial health.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"For projects in which we are not the operator, we depend on the management effectiveness of one or more co-venturers whom we do not control.\", \"explanation\": \"This statement indicates reliance on third parties for project management, which introduces an element of operational risk.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"Our ability to maintain and grow our oil and gas production depends on the success of our exploration and development efforts.\", \"explanation\": \"This statement indicates reliance on successful exploration and development, which is not directly related to market, credit, liquidity, operational, regulatory/legal, cybersecurity, or supply chain risks, thus falling under 'other'. The medium severity reflects the importance of these activities for business growth.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "market",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"market\", \"severity\": \"medium\", \"evidence\": \"Actual future results, including project completion dates, production rates, capital expenditures, costs, and business plans could differ materially.\", \"explanation\": \"This statement indicates potential variability in future outcomes due to market conditions and other factors, suggesting a medium severity level of market risk.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"Access limitations. A number of countries limit access to their oil and gas resources, including by restricting leasing, licensing, or permitting activities.\", \"explanation\": \"The excerpt highlights significant regulatory and legal risks related to access limitations and restrictions on oil and gas resources, which can severely impact business operations and investments.\"}"
+      },
+      {
+        "gold_category": "market",
+        "pred_category": "other",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"other\", \"severity\": \"medium\", \"evidence\": \"ExxonMobil’s financial and operating results are subject to a variety of risks inherent in the global oil, gas, and petrochemical businesses.\", \"explanation\": \"This statement indicates exposure to multiple external risks that can impact the company's performance, classifying it as 'other' and medium severity.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "cybersecurity",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"cybersecurity\", \"severity\": \"medium\", \"evidence\": \"successfully applying advances in the ability to process and integrate large amounts of data to our businesses and decision-making processes.\", \"explanation\": \"The mention of processing and integrating large amounts of data suggests potential cybersecurity risks associated with handling sensitive information, which could be classified as medium severity given the importance of data security in modern business operations.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"An important component of ExxonMobil’s competitive performance, especially given the commodity-based nature of many of our businesses, is our ability to operate efficiently.\", \"explanation\": \"The excerpt highlights the importance of operational efficiency for competitive performance, indicating potential risks if these operations falter.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"regulatory interpretations that exclude or disfavor our products under government policies or programs\", \"explanation\": \"This excerpt highlights potential regulatory risks that could significantly impact the company's business operations and product offerings, indicating a high severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"Our operations may be disrupted by severe weather events, natural disasters, human error, and similar events.\", \"explanation\": \"The excerpt highlights potential disruptions due to various operational risks such as severe weather and natural disasters, indicating a medium severity level.\"}"
+      },
+      {
+        "gold_category": "operational",
+        "pred_category": "operational",
+        "gold_severity": "medium",
+        "pred_severity": "medium",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"operational\", \"severity\": \"medium\", \"evidence\": \"For projects in which we are not the operator, we depend on the management effectiveness of one or more co-venturers whom we do not control.\", \"explanation\": \"This statement indicates reliance on third parties for project management, which introduces an element of uncertainty and potential risk.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"changes in law or interpretation or enforcement of settled law, including changes that result from concerted efforts to increase our legal exposure\", \"explanation\": \"The excerpt highlights significant exposure to regulatory and legal risks due to potential changes in laws and interpretations, which can be highly impactful and unpredictable.\"}"
+      },
+      {
+        "gold_category": "regulatory_legal",
+        "pred_category": "regulatory_legal",
+        "gold_severity": "high",
+        "pred_severity": "high",
+        "valid_json": true,
+        "raw_output": "{\"category\": \"regulatory_legal\", \"severity\": \"high\", \"evidence\": \"unstable policies or shifting regulations impacting new or emerging markets\", \"explanation\": \"The excerpt highlights risks related to regulatory changes in new markets, which can be significant and unpredictable, thus classifying it as high severity.\"}"
+      }
+    ]
+  }
+}
